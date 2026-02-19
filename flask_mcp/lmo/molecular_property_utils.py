@@ -152,7 +152,7 @@ def calculate_property_hf(
     lipo, 2.94
     """
     try:
-        from flask_mcp.LMO.get_chemprop2_preds import predict_with_chemprop
+        from flask_mcp.lmo.get_chemprop2_preds import predict_with_chemprop
     except Exception as e:
         logger.warning(
             "Please install the chemprop support packages to use this module."
@@ -209,7 +209,7 @@ def get_molecule_price(smiles):
     0.1056
     """
     try:
-        from flask_mcp.LMO.molecule_pricer import get_chemspace_prices
+        from flask_mcp.lmo.molecule_pricer import get_chemspace_prices
     except Exception as e:
         logger.warning(
             "Please install the chemprice support packages to use this module."

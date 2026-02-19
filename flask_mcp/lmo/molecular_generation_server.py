@@ -27,10 +27,10 @@ from charge.clients.autogen import AutoGenPool
 from charge.clients.Client import Client
 import asyncio
 from flask_mcp.chemistry import SMILES_utils
-from flask_mcp.LMO.molecular_property_utils import get_density
+from flask_mcp.lmo.molecular_property_utils import get_density
 import argparse
 from typing import Optional, Literal, Tuple
-from flask_mcp.LMO.molecular_property_utils import PropertyType
+from flask_mcp.lmo.molecular_property_utils import PropertyType
 
 mcp = FastMCP(
     "SMILES Diagnosis and retrieval MCP Server",
