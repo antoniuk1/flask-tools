@@ -39,20 +39,3 @@ def get_hostname():
     except socket.gaierror as e:
         host = "127.0.0.1"
     return hostname, host
-
-
-def try_get_public_hostname():
-    import socket
-
-    hostname = socket.gethostname()
-    try:
-        public_hostname = hostname + "-pub"
-        host = socket.gethostbyname(public_hostname)
-        hostname = public_hostname
-    except socket.gaierror as e:
-        try:
-            host = socket.gethostbyname(hostname)
-        except socket.gaierror as e:
-            host = "127.0.0.1"
-
-    return hostname, host
