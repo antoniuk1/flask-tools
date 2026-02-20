@@ -12,6 +12,7 @@ readme = "README.md"
 # The upper limit of <3.13 is due to AiZynthFinder
 requires-python = ">=3.11, <3.13"
 dependencies = [
+    "lc_conductor>=0.1.0",
     "charge>=0.1.0",
     "mcp>=1.10.0",
     "jsonschema>=4.17.3",
@@ -32,7 +33,7 @@ include = ["flask_tools*"]
 
 # This creates the console script
 [project.scripts]
-flask-mcp-install = "flask_tools.install:main"
+flask-tools-install = "flask_tools.install:main"
 
 [project.optional-dependencies]
 #ollama = ["ollama>=0.5.0"]
@@ -46,9 +47,10 @@ aizynthfinder = ["paretoset", "rdchiral", "wrapt_timeout_decorator", "swifter", 
 chemprop = ["chemprop>=2.2.0", "torch>=2.8.0", "lightning"]
 chemprice = []
 rag = ["autogen-agentchat>=0.7.0", "datasets", "faiss-cpu", "openai>=2.0.0", "transformers[torch]"]
+molecular_minds = ["torch-geometric", "torch-scatter"]
 test = ["pytest", "pytest-asyncio", "pytest-mock", "responses", "httpx", "requests-mock"]
 
 # Define a set of optional packages for use when deploying persistent data services
 pds = ["flask-tools[aizynthfinder,autogen,rdkit,chemprice]"]
 
-all = ["flask-tools[ollama,gemini,autogen,rdkit,flask,aizynthfinder,chemprop,chemprice,rag]"]
+all = ["flask-tools[rdkit,flask,aizynthfinder,chemprop,chemprice,rag, molecular_minds]"]

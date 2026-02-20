@@ -14,10 +14,6 @@ PACKAGE_GROUPS = {
         "packages": ["aizynthfinder", "reaction-utils"],
         "description": "AiZynthfinder planning and reaction utilities",
     },
-    "molecular_minds": {
-        "packages": ["torch-geometric", "torch-scatter"],
-        "description": "Molecular Minds extra packages",
-    },
 }
 
 
@@ -69,14 +65,12 @@ def run_pip_command(cmd, description):
     type=click.Choice(
         [
             "all",
-            "autogen",
             "aizynthfinder",
-            "ollama",
-            "gemini",
             "rdkit",
             "flask",
             "chemprop",
             "chemprice",
+            "rag",
         ],
         case_sensitive=False,
     ),
@@ -91,7 +85,7 @@ def run_pip_command(cmd, description):
 )
 def main(no_extras, no_main, editable, git_tag, extras, dry_run):
     """
-    Install ChARGe and its key package dependencies without sub-dependencies.
+    Install FLASK-tools and its key package dependencies without sub-dependencies.
 
     This installer handles packages with conflicting dependency requirements
     by installing them with --no-deps after the main package is installed.
@@ -99,25 +93,25 @@ def main(no_extras, no_main, editable, git_tag, extras, dry_run):
     Examples:
 
         # Full installation (default)
-        $ charge-install
+        $ flask-tools-install
 
         # Minimal installation
-        $ charge-install --no-extras
+        $ flask-tools-install --no-extras
 
         # Only install chemprice
-        $ charge-install --extras chemprice
+        $ flask-tools-install --extras chemprice
 
         # Only install aizynthfinder tools
-        $ charge-install --extras aizynthfinder
+        $ flask-tools-install --extras aizynthfinder
 
         # Install only optional packages (assumes main package already installed)
-        $ charge-install --no-main
+        $ flask-tools-install --no-main
 
         # See what would be installed
-        $ charge-install --dry-run
+        $ flask-tools-install --dry-run
     """
     click.secho("=" * 60, fg="cyan")
-    click.secho("Installation Helper for ChARGe", fg="cyan", bold=True)
+    click.secho("Installation Helper for FLASK-tools", fg="cyan", bold=True)
     click.secho("=" * 60, fg="cyan")
 
     if dry_run:
@@ -138,7 +132,9 @@ def main(no_extras, no_main, editable, git_tag, extras, dry_run):
 
     package_location = "."
     if git_tag:
-        package_location = f"git+https://github.com/FLASK-LLNL/ChARGe.git@{git_tag}"
+        package_location = (
+            f"git+https://github.com/FLASK-LLNL/FLASK-tools.git@{git_tag}"
+        )
         editable = False
 
     # Determine which packages to install

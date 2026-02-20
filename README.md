@@ -1,4 +1,4 @@
-# FLASK-MCP-servers
+# FLASK-tools
 
 ## Installation
 
@@ -6,12 +6,14 @@ To install the package, clone the repository and run:
 
 ```bash
 pip install -e .
+flask-tools-install --extras all
 ```
 
 Or install directly from GitHub:
 
 ```bash
-pip install git+https://github.com/FLASK-LLNL/FLASK-MCP-servers.git
+pip install git+https://github.com/FLASK-LLNL/FLASK-tools.git
+flask-tools-install --git-tag main --extras all
 ```
 
 # License

@@ -14,7 +14,9 @@ import os
 from typing import Optional, Dict
 import argparse
 
-from fastmcp import FastMCP
+from mcp.server.fastmcp import FastMCP
+
+# from fastmcp import FastMCP
 
 mcp = FastMCP("Molecular Minds Property Predictor", json_response=True)
 

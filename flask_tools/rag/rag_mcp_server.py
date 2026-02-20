@@ -42,7 +42,9 @@ logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
 
 
-from fastmcp import FastMCP
+from mcp.server.fastmcp import FastMCP
+
+# from fastmcp import FastMCP
 from starlette.responses import JSONResponse
 
 mcp = FastMCP("RAG Server", json_response=True)

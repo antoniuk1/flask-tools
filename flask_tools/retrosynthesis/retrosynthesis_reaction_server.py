@@ -47,18 +47,18 @@ if __name__ == "__main__":
         SMARTS_mcp.run(
             transport="sse",
         )
-    elif exp_type == "template-free":
+    # elif exp_type == "template-free":
 
-        from flask_tools.retrosynthesis.AiZynthTools import (
-            is_molecule_synthesizable,
-            RetroPlanner,
-        )
+    #     from flask_tools.retrosynthesis.AiZynthTools import (
+    #         is_molecule_synthesizable,
+    #         RetroPlanner,
+    #     )
 
-        RetroPlanner.initialize(configfile=args.config)
+    #     RetroPlanner.initialize(configfile=args.config)
 
-        template_free_mcp.tool()(is_molecule_synthesizable)
-        template_free_mcp.run(
-            transport="sse",
-        )
+    #     template_free_mcp.tool()(is_molecule_synthesizable)
+    #     template_free_mcp.run(
+    #         transport="sse",
+    #     )
     else:
         raise ValueError(f"Unknown task type: {exp_type}")
