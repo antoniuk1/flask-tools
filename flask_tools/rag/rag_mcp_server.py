@@ -51,7 +51,13 @@ from mcp.server.fastmcp import FastMCP
 # from fastmcp import FastMCP
 from starlette.responses import JSONResponse
 
-mcp = FastMCP("RAG Server", json_response=True)
+mcp = FastMCP(
+    "RAG Server",
+    sse_path=f"/flask_rag_v1_tools/sse",
+    message_path=f"/flask_rag_v1_tools/messages/",
+    host="0.0.0.0",
+    json_response=True,
+)
 
 
 class Role(StrEnum):

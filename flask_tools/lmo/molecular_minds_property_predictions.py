@@ -20,7 +20,13 @@ from mcp.server.fastmcp import FastMCP
 
 # from fastmcp import FastMCP
 
-mcp = FastMCP("Molecular Minds Property Predictor", json_response=True)
+mcp = FastMCP(
+    "Molecular Minds Property Predictor",
+    sse_path=f"/flask_molecular_minds_tool/sse",
+    message_path=f"/flask_molecular_minds_tool/messages/",
+    host="0.0.0.0",
+    json_response=True,
+)
 
 # Add path to find Molecular_Minds module
 current_dir = os.path.dirname(os.path.abspath(__file__))
