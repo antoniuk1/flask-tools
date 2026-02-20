@@ -12,7 +12,9 @@ Usage:
 import sys
 import os
 from typing import Optional, Dict
-import argparse
+import click
+import uvicorn
+from loguru import logger
 
 from mcp.server.fastmcp import FastMCP
 
@@ -32,6 +34,9 @@ if molecular_minds_path not in sys.path:
 # Import from Molecular_Minds package
 from Molecular_Minds import predict_smiles, get_default_predictor, set_default_model
 import Molecular_Minds.molecular_minds_predictor
+
+from lc_conductor.tool_registration import register_tool_server, get_asgi_app
+from flask_tools.utils.server_utils import update_mcp_network, get_hostname
 
 
 @mcp.tool()
@@ -160,16 +165,59 @@ def predict_vp(smiles: str) -> float:
     return results["logvp"]
 
 
+@click.command()
+@click.option("--port", type=int, default=8128, help="Port to run the server on")
+@click.option("--host", type=str, default=None, help="Host to run the server on")
+@click.option(
+    "--name",
+    type=str,
+    default="flask_molecular_minds_tool",
+    help="Name of the MCP server",
+)
+@click.option(
+    "--copilot-port", type=int, default=8001, help="Port to the running copilot backend"
+)
+@click.option(
+    "--copilot-host", type=str, default=None, help="Host to the running copilot backend"
+)
+@click.option(
+    "--checkpoint-path",
+    envvar="FLASK_MOLECULAR_MINDS_CHECKPOINT_PATH",
+    required=True,
+    type=str,
+    help="Path to model checkpoint path",
+)
+@click.pass_context
+def main(
+    ctx,
+    port: int,
+    host: str,
+    name: str,
+    copilot_port: int,
+    copilot_host: int,
+    checkpoint_path: str,
+):
+    print("\n".join(f"{k} = {v}" for k, v in ctx.params.items()))
+    model_path = checkpoint_path
+    Molecular_Minds.molecular_minds_predictor.DEFAULT_MODEL_PATH = model_path
+
+    if host is None:
+        _, host = get_hostname()
+
+    try:
+        register_tool_server(port, host, name, copilot_port, copilot_host)
+    except:
+        logger.info(
+            f"{name} could not connect to server for registration -- requires manual registration"
+        )
+
+    asgi_app = get_asgi_app(mcp)
+    if asgi_app:
+        uvicorn.run(asgi_app, host=host or "0.0.0.0", port=port, factory=True)
+    else:
+        logger.error("Could not access FastMCP ASGI app")
+
+
 # ===== SCRIPT =====
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser()
-    parser.add_argument(
-        "--checkpoint-path",
-        required=True,
-        type=str,
-        help="Path to model checkpoint path",
-    )
-    args = parser.parse_args()
-    model_path = args.checkpoint_path
-    Molecular_Minds.molecular_minds_predictor.DEFAULT_MODEL_PATH = model_path
-mcp.run(transport="sse")
+    main()
