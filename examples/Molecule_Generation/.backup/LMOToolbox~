@@ -1,0 +1,18 @@
+class LMOToolbox(Toolbox):
+
+    @charge.tool
+#    def canonicalize_smiles(self, smiles: str) -> str:
+    @charge.tool.register()
+    helper_funcs.canonicalize_smiles(smiles)
+
+    @charge.hypothesis
+    def verify_smiles(self, smiles: str) -> bool:
+        """
+        Verify if a SMILES string is valid. Returns True if valid, False otherwise.
+
+        Args:
+            smiles (str): The input SMILES string.
+        Returns:
+            bool: True if the SMILES is valid, False otherwise.
+        """
+        return helper_funcs.verify_smiles(smiles)

@@ -1,0 +1,20 @@
+class LMOToolbox(Toolbox):
+
+    @charge.tool.register()
+    helper_funcs.canonicalize_smiles(smiles)
+
+    @charge.tool.register()
+    helper_funcs.verify_smiles()
+
+
+
+import helper_funcs as hf
+Class LMOBVEToolbox(Toolbox):
+    @charge.tool.register()
+    hf.canonicalize_smiles()
+
+    @charge.tool.register()
+    hf.verify_smiles()
+
+    @charge.tool.register()
+    hf.get_density()

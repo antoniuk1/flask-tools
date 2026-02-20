@@ -1,0 +1,64 @@
+from mcp.server.fastmcp import FastMCP
+from LMOExperiment import LMOExperiment
+
+mcp = FastMCP("Hypothesis MCP Server")
+
+# Instance of the class
+obj = LMOExperiment()
+
+@mcp.tool()
+def canonicalize_smiles(smiles: str) -> str:
+    """
+    Canonicalize a SMILES string. Returns the canonical SMILES.
+    If the SMILES is invalid, returns "Invalid SMILES".
+
+    Args:
+        smiles (str): The input SMILES string.
+    Returns:
+        str: The canonicalized SMILES string.
+    """
+    return obj.canonicalize_smiles(smiles=smiles)
+
+@mcp.tool()
+def check_proposal(smiles: str) -> bool:
+    """
+    Check if the proposed SMILES string is valid.
+    If it is valid, checks if its synthesizability score is less than or equal to the lead molecule
+    and if its density is greater than or equal to the lead molecule.
+    Args:
+        smiles (str): The proposed SMILES string.
+    Returns:
+        bool: True if the proposal is valid and meets the criteria, False otherwise.
+    Raises:
+        ValueError: If the SMILES string is invalid or does not meet the criteria.
+    """
+    return obj.check_proposal(smiles=smiles)
+
+@mcp.tool()
+def get_synthesizability(smiles: str) -> float:
+    """
+    Calculate the synthesizability of a molecule given its SMILES string.
+    Values range from 1.0 (highly synthesizable) to 10.0 (not synthesizable).
+
+    Args:
+        smiles (str): The input SMILES string.
+    Returns:
+        float: The synthesizability score.
+    """
+    return obj.get_synthesizability(smiles=smiles)
+
+@mcp.tool()
+def verify_smiles(smiles: str) -> bool:
+    """
+    Verify if a SMILES string is valid. Returns True if valid, False otherwise.
+
+    Args:
+        smiles (str): The input SMILES string.
+    Returns:
+        bool: True if the SMILES is valid, False otherwise.
+    """
+    return obj.verify_smiles(smiles=smiles)
+
+
+if __name__ == "__main__":
+    mcp.run(transport="stdio")
