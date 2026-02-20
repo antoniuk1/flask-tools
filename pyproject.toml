@@ -3,9 +3,9 @@ requires = ["setuptools>=61.0", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "flask-mcp-servers"
+name = "flask-tools"
 version = "0.1.0"
-description = "FLASK-MCP-SERVERS: Chemistry-tool for FLASK project"
+description = "FLASK-tool: Chemistry-tool for FLASK project"
 authors = []
 license = {file = "LICENSE"}
 readme = "README.md"
@@ -28,11 +28,11 @@ dependencies = [
 
 [tool.setuptools.packages.find]
 where = ["."]
-include = ["flask_mcp*"]
+include = ["flask_tools*"]
 
 # This creates the console script
 [project.scripts]
-flask-mcp-install = "flask_mcp.install:main"
+flask-mcp-install = "flask_tools.install:main"
 
 [project.optional-dependencies]
 #ollama = ["ollama>=0.5.0"]
@@ -49,6 +49,6 @@ rag = ["autogen-agentchat>=0.7.0", "datasets", "faiss-cpu", "openai>=2.0.0", "tr
 test = ["pytest", "pytest-asyncio", "pytest-mock", "responses", "httpx", "requests-mock"]
 
 # Define a set of optional packages for use when deploying persistent data services
-pds = ["charge[aizynthfinder,autogen,rdkit,chemprice]"]
+pds = ["flask-tools[aizynthfinder,autogen,rdkit,chemprice]"]
 
-all = ["charge[ollama,gemini,autogen,rdkit,flask,aizynthfinder,chemprop,chemprice,rag]"]
+all = ["flask-tools[ollama,gemini,autogen,rdkit,flask,aizynthfinder,chemprop,chemprice,rag]"]
