@@ -53,18 +53,10 @@ logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
 
 
-from mcp.server.fastmcp import FastMCP
-
-# from fastmcp import FastMCP
+from fastmcp import FastMCP
 from starlette.responses import JSONResponse
 
-mcp = FastMCP(
-    "RAG Server",
-    sse_path=f"/flask_rag_v1_tools/sse",
-    message_path=f"/flask_rag_v1_tools/messages/",
-    host="0.0.0.0",
-    json_response=True,
-)
+mcp = FastMCP("RAG Server")
 
 
 class Role(StrEnum):
@@ -354,6 +346,12 @@ tokenizer = None
 
 
 @click.command()
+@click.option(
+    "--transport",
+    type=click.Choice(["stdio", "streamable-http"]),
+    help="MCP transport type",
+    default="streamable-http",
+)
 @click.option("--port", type=int, default=8127, help="Port to run the server on")
 @click.option("--host", type=str, default=None, help="Host to run the server on")
 @click.option(
@@ -429,6 +427,7 @@ tokenizer = None
 @click.pass_context
 def main(
     ctx,
+    transport: str,
     port: int,
     host: str,
     name: str,
@@ -529,11 +528,14 @@ def main(
             f"{name} could not connect to server for registration -- requires manual registration"
         )
 
-    asgi_app = get_asgi_app(mcp)
-    if asgi_app:
-        uvicorn.run(asgi_app, host=host or "0.0.0.0", port=port, factory=True)
-    else:
-        logger.error("Could not access FastMCP ASGI app")
+    # Run MCP server
+    mcp.run(
+        transport=transport,
+        host=host,
+        port=port,
+        path=f"/flask_rag_v1_tools/mcp",
+        json_response=True,
+    )
 
 
 if __name__ == "__main__":
