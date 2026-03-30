@@ -155,10 +155,11 @@ def get_OPV_properties(smile, verbose=True, scratch: str='/tmp'):
         run_command("rm -f ./gfnff_charges ./gfnff_topo", verbose, 'Remove preliminary GFN-FF files')
 
         # Run crest conformer ensemble
+        crest_executable = os.path.join(os.environ.get("CREST_HOME", ""), "crest")
         command_crest = (
-            'OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 '
-            'CHARGE={};crest {} -gff -mquick -chrg $CHARGE --noreftopo --T 1'
-        ).format(charge, 'xtbopt.xyz')
+    'OMP_NUM_THREADS=1 MKL_NUM_THREADS=1 OPENBLAS_NUM_THREADS=1 '
+    'CHARGE={};{} {} -gff -mquick -chrg $CHARGE --noreftopo --T 1'
+).format(charge, crest_executable, 'xtbopt.xyz')
         run_command(command_crest, verbose, 'CREST conformer search')
         run_command('rm -f ./gfnff_charges ./gfnff_topo', verbose, 'Remove CREST GFN-FF files')
         run_command('head -n {} crest_conformers.xyz > crest_best.xyz'.format(atom_number+2), verbose, 'Extract best conformer')
